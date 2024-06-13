@@ -7,10 +7,6 @@ SELECT
 		WHEN split IS NOT NULL THEN split - formed
 		ELSE 2022 - formed
 	END AS lifespan
-
-FROM
-	metal_bands
-WHERE
-	main_style = 'Glam rock'
-ORDER BY
-	lifespan DESC;
+FROM metal_bands
+WHERE STYLE LIKE '%Glam rock%'
+ORDER BY lifespan DESC;
