@@ -1,12 +1,8 @@
---SQL script that lists all bands with Glam rock as their main style
--- Lanked by their longevity.
-
-SELECT
-	band_name,
-	CASE
-		WHEN split IS NOT NULL THEN split - formed
-		ELSE 2022 - formed
-	END AS lifespan
-FROM metal_bands
-WHERE STYLE LIKE '%Glam rock%'
+-- list all band with glam rock as their style
+-- rank by their longevity
+-- if split year is null swap it for current year(2022)
+SELECT band_name,
+COALESCE(split, 2022) - formed AS lifespan
+FROM metal_bands 
+WHERE STYLE LIKE '%Glam rock%' 
 ORDER BY lifespan DESC;
