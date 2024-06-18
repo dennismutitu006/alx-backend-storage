@@ -2,4 +2,5 @@
 // the doc must have one attribute name with value Holberton school
 
 
-db.school.insertOne({"name" : "Holberton"})
+db.school.insert({
+    "name" : "Holberton"})
