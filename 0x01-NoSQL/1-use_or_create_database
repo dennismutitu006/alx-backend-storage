@@ -1,0 +1,4 @@
+// this script will create or use a dbase called my_db
+
+
+use my_db
