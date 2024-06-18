@@ -1,0 +1,5 @@
+// a script that inserts a doc in the collection school
+// the doc must have one attribute name with value Holberton school
+
+
+db.school.insert({"name" : "Holberton"})
