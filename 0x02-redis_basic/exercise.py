@@ -5,7 +5,7 @@ as a private var named _redis. and flush the instance using the flushdb.
 """
 import redis
 import uuid
-from typing import Union
+from typing import Union, Optional, Callable
 
 
 class Cache:
@@ -26,3 +26,25 @@ class Cache:
         self._redis.set(key, data)
 
         return key
+
+    def get(self, key: str, fn: Optional[Callable] = None) ->
+    Union[str, int, float, bytes, None]:
+        """
+        Retrieve data from Redis the key and optionally apply a  conversion fn.
+
+        parameters:
+            key: The key str to retrieve the data.
+            fn: Optional callable to convert the data to desired format
+
+        Returns:
+            The retrieved data ,optionally converted by fn or None if !key
+        """
+        data = self._redis.get(key)
+
+        if data is None:
+            return None
+
+        if fn:
+            return fn(data)
+
+        return data
