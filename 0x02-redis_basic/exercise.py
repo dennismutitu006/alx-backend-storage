@@ -6,6 +6,26 @@ as a private var named _redis. and flush the instance using the flushdb.
 import redis
 import uuid
 from typing import Union, Optional, Callable
+from functools import wraps
+
+
+def count_calls(method: Callable) -> Callable:
+    """
+    Decorator that counts the no. of calls to a method in a redis key.
+
+    Parameters:
+        method: the method to be decorated.
+
+    Returns:
+        wrapped function that incr the call count and reurn the original res.
+    """
+    key = method.__qualname__
+
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        self._redis.incr(key)
+        return method(self, *args, **kwargs)
+    return wrapper
 
 
 class Cache:
@@ -16,6 +36,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
             this method takes the data arg generetes a random key
